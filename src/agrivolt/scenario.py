@@ -37,6 +37,11 @@ class CropPlan:
     irrigation_mm: float = 0.0
     grown_in_baseline: bool = True
 
+    # Plant available water the soil profile still holds at sowing. Set from the
+    # soil type at the site, not from the crop. Deep black cotton soil carries
+    # 150-200 mm into the rabi season; shallow lateritic soil carries very little.
+    residual_moisture_mm: float = 0.0
+
 
 def _conventional_array(array: PanelArray) -> PanelArray:
     """The same modules packed as a normal solar farm -- the energy denominator."""
@@ -83,10 +88,12 @@ def _run_crop(plan: CropPlan, crop: crop_model.Crop, year: int,
 
     kc = crop.crop_coefficient_curve(year).reindex(season_daily.index).ffill().bfill()
     balance_open = water.water_balance(
-        season_daily["precipitation"], et0_open * kc, plan.irrigation_mm
+        season_daily["precipitation"], et0_open * kc,
+        plan.irrigation_mm, plan.residual_moisture_mm,
     )
     balance_shaded = water.water_balance(
-        season_daily["precipitation"], et0_shaded * kc, plan.irrigation_mm
+        season_daily["precipitation"], et0_shaded * kc,
+        plan.irrigation_mm, plan.residual_moisture_mm,
     )
 
     repro = crop.heat_sensitive_window(year)

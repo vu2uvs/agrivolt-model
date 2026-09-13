@@ -1,0 +1,41 @@
+name: kalaburagi-karnataka
+description: >-
+  Kalaburagi in north interior Karnataka, the first site outside Maharashtra.
+  India grows more tur here than anywhere else, on black cotton soil that holds
+  moisture well and under a sun that regularly pushes past 42 degrees.
+
+  The heat is the point. Chickpea sown behind the tur harvest fills grain in
+  February and March, and Kalaburagi is hot enough by then that the canopy
+  cooling under an array should show up as yield rather than as a rounding
+  error. This is the site where the heat channel ought to matter most.
+
+site:
+  name: Kalaburagi
+  district: Kalaburagi
+  latitude: 17.33
+  longitude: 76.83
+  acres: 15
+  altitude_m: 450
+  agroclimatic_zone: North interior Karnataka, semi-arid
+
+array:
+  collector_width: 2.3
+  pitch: 9.0
+  tilt: 17.0
+  azimuth: 180.0
+  clearance_height: 4.0
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+# Soil water carried into the season: deep vertisol, which is why rabi works here at all.
+crops:
+  - key: pigeonpea_kharif
+    irrigation_mm: 0
+    grown_in_baseline: true
+    residual_moisture_mm: 180
+  - key: chickpea_rabi_late
+    irrigation_mm: 0
+    grown_in_baseline: true
+    residual_moisture_mm: 180

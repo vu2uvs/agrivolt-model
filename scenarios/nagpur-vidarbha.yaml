@@ -1,0 +1,37 @@
+name: nagpur-vidarbha
+description: >-
+  Nagpur, and the cotton question. Cotton is the largest crop by area in
+  Vidarbha and the one carrying the most agrarian distress, so it is the crop
+  an agrivoltaic proposal in this region will actually be judged against.
+
+  It is also the least accommodating case in this library. Cotton holds the
+  land from June to January, so there is no idle rabi season for the array to
+  pay for, and it is close to light limited, so shading costs it more than it
+  costs a legume. If agrivoltaics works over cotton it works over most things.
+
+site:
+  name: Nagpur
+  district: Nagpur
+  latitude: 21.15
+  longitude: 79.09
+  acres: 15
+  altitude_m: 310
+  agroclimatic_zone: Vidarbha, central plateau
+
+array:
+  collector_width: 2.3
+  pitch: 9.0
+  tilt: 21.0
+  azimuth: 180.0
+  clearance_height: 4.5
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+# Soil water carried into the season: medium-deep black cotton soil.
+crops:
+  - key: cotton_kharif
+    irrigation_mm: 0
+    grown_in_baseline: true
+    residual_moisture_mm: 120

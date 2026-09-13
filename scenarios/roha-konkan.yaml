@@ -27,10 +27,13 @@ weather:
   start_year: 2019
   end_year: 2023
 
+# Soil water carried into the season: shallow lateritic soil on a slope, which sheds water rather than storing it.
 crops:
   - key: paddy_kharif
     irrigation_mm: 0
     grown_in_baseline: true
+    residual_moisture_mm: 40
   - key: cowpea_rabi
     irrigation_mm: 150     # from a farm pond, not the grid or a borewell
     grown_in_baseline: false
+    residual_moisture_mm: 40

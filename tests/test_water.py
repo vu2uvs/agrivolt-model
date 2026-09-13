@@ -65,3 +65,25 @@ def test_relative_transpiration_is_capped_at_one():
     )
     assert balance["relative_transpiration"] == 1.0
     assert balance["deficit_mm"] == 0.0
+
+
+def test_residual_soil_moisture_counts_as_supply():
+    """Rabi across the Deccan runs on stored monsoon water, not in-season rain."""
+    dry_season = pd.Series([0.0] * 100)
+    demand = pd.Series([3.0] * 100)
+
+    without = water.water_balance(dry_season, demand, irrigation_mm=0)
+    with_profile = water.water_balance(dry_season, demand, residual_moisture_mm=180)
+
+    assert without["relative_transpiration"] == 0.0
+    assert with_profile["relative_transpiration"] == pytest.approx(180 / 300, abs=1e-3)
+    assert with_profile["supply_mm"] == pytest.approx(180.0)
+
+
+def test_the_three_supply_sources_add_up():
+    balance = water.water_balance(
+        pd.Series([10.0] * 10), pd.Series([5.0] * 10),
+        irrigation_mm=30, residual_moisture_mm=20, effective_rain_fraction=0.5,
+    )
+    assert balance["effective_rainfall_mm"] == pytest.approx(50.0)
+    assert balance["supply_mm"] == pytest.approx(50 + 30 + 20)

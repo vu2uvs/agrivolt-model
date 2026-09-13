@@ -167,3 +167,46 @@ crops:
       entirely; late-sown chickpea walks straight into it. This entry exists so
       that the difference is a scenario the model can price rather than a
       caveat in prose.
+
+  cotton_kharif:
+    season: kharif
+    sowing_month: 6
+    sowing_day: 15
+    stages: { initial: 30, development: 50, mid: 55, late: 45 }
+    kc_initial: 0.35
+    kc_mid: 1.15
+    kc_end: 0.60
+    yield_response_factor: 0.85
+    shade_sensitivity: 0.85
+    heat_sensitivity: 0.30
+    critical_temp_c: 38.0
+    reference_yield_t_ha: 1.5
+    price_inr_per_tonne: 77000
+    cultivation_cost_inr_per_ha: 55000
+    source: FAO-56 and FAO-33 cotton. Yield is the Vidarbha seed cotton average. Price indicative.
+    notes: >-
+      The crop with the most acreage at stake in Vidarbha and the one carrying
+      the most distress. It also holds the land from June to January, so a plot
+      under cotton has no rabi season to give away, which changes the
+      agrivoltaic arithmetic completely.
+
+  pigeonpea_kharif:
+    season: kharif
+    sowing_month: 6
+    sowing_day: 20
+    stages: { initial: 25, development: 45, mid: 60, late: 40 }
+    kc_initial: 0.40
+    kc_mid: 1.15
+    kc_end: 0.35
+    yield_response_factor: 1.15
+    shade_sensitivity: 0.55
+    heat_sensitivity: 0.35
+    critical_temp_c: 36.0
+    reference_yield_t_ha: 0.85
+    price_inr_per_tonne: 80000
+    cultivation_cost_inr_per_ha: 35000
+    source: FAO-56 and FAO-33 pulses. Yield is the north Karnataka rainfed tur average. Price indicative.
+    notes: >-
+      Tur, and north Karnataka grows more of it than anywhere else in India.
+      A long duration legume that flowers into the hottest part of the season,
+      which is the combination the heat channel was written for.

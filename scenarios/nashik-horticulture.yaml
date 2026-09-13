@@ -22,7 +22,9 @@ weather:
   start_year: 2019
   end_year: 2023
 
+# Soil water carried into the season: medium soil, though this block is drip irrigated anyway.
 crops:
   - key: onion_rabi
     irrigation_mm: 350
     grown_in_baseline: true
+    residual_moisture_mm: 60

@@ -119,21 +119,40 @@ def reference_evapotranspiration(daily: pd.DataFrame, latitude: float,
 
 def water_balance(precipitation: pd.Series, crop_et: pd.Series,
                   irrigation_mm: float = 0.0,
+                  residual_moisture_mm: float = 0.0,
                   effective_rain_fraction: float = 0.75) -> dict[str, float]:
     """Season totals of supply against demand, all in mm.
 
-    Rainfall is discounted to an effective fraction: on the lateritic slopes of
-    the Konkan a large share of monsoon rain runs off rather than entering the
-    root zone. `relative_transpiration` is the ratio the FAO-33 yield response
-    consumes, capped at 1 because surplus water does not raise yield.
+    Three sources of water, and leaving out the third badly misrepresents Indian
+    rabi farming.
+
+    Rainfall is discounted to an effective fraction, because on the lateritic
+    slopes of the Konkan a large share of high intensity monsoon rain runs off
+    instead of entering the root zone.
+
+    Irrigation is whatever the farm can actually deliver, which for most of
+    these sites is a pond rather than a canal.
+
+    Residual moisture is what the soil profile still holds from the monsoon when
+    the rabi crop is sown. Across the Deccan this is not a refinement, it is the
+    entire basis of rabi cultivation. A deep vertisol in north Karnataka carries
+    150 to 200 mm of plant available water into December, and the chickpea and
+    rabi jowar grown on it receive almost no in-season rain at all. Count only
+    rainfall and irrigation and the model concludes those crops fail completely,
+    which would be news to the farmers growing them.
+
+    `relative_transpiration` is the ratio the FAO-33 yield response consumes,
+    capped at 1 because surplus water does not raise yield.
     """
     demand = float(crop_et.sum())
     effective_rain = float(precipitation.sum()) * effective_rain_fraction
-    supply = effective_rain + irrigation_mm
+    supply = effective_rain + irrigation_mm + residual_moisture_mm
     return {
         "crop_water_demand_mm": round(demand, 1),
         "effective_rainfall_mm": round(effective_rain, 1),
         "irrigation_mm": round(irrigation_mm, 1),
+        "residual_moisture_mm": round(residual_moisture_mm, 1),
+        "supply_mm": round(supply, 1),
         "deficit_mm": round(max(demand - supply, 0.0), 1),
         "relative_transpiration": round(min(supply / demand, 1.0) if demand > 0 else 1.0, 4),
     }

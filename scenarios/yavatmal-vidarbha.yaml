@@ -22,10 +22,13 @@ weather:
   start_year: 2019
   end_year: 2023
 
+# Soil water carried into the season: medium-deep black cotton soil.
 crops:
   - key: soybean_kharif
     irrigation_mm: 0
     grown_in_baseline: true
+    residual_moisture_mm: 130
   - key: chickpea_rabi
     irrigation_mm: 0
     grown_in_baseline: true
+    residual_moisture_mm: 130
