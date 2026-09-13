@@ -1,0 +1,93 @@
+# Financial assumptions.
+#
+# Every rupee figure the model uses lives here, and every one carries a source.
+# Nothing is hard-coded in the Python. When a reviewer disagrees with the case,
+# the argument should be about a line in this file, not about the code.
+
+finance:
+
+  capex_inr_per_wp:
+    value: 45.0
+    unit: INR/Wp DC
+    source: >-
+      Indian utility-scale ground mount lands around 28-35 INR/Wp in 2026 after
+      the module price collapse. Agrivoltaic mounting at 4 m clearance roughly
+      doubles the structural line, adding 8-12 INR/Wp for longer piles, wider
+      spans and heavier foundations. 45 is the midpoint of the resulting range.
+    confidence: medium
+    note: >-
+      The single largest sensitivity in the model, and the one number most worth
+      getting a real EPC quote for. Run 38 and 52 as the bounds.
+
+  opex_inr_per_kw_year:
+    value: 500.0
+    unit: INR/kW/year
+    source: >-
+      5 lakh per MW per year, the usual Indian O&M benchmark, covering module
+      cleaning, inverter service, security and insurance. Excludes farming cost,
+      which is charged separately per hectare in the crop block.
+    confidence: high
+
+  tariff_inr_per_kwh:
+    value: 2.825
+    unit: INR/kWh
+    source: >-
+      MERC order of 5 August 2026 approving MSEDCL procurement of 2,269 MW under
+      MSKVY 2.0. Discovered tariffs spanned 2.24-2.90/kWh across 257 substations;
+      2.825 is the weighted average. Down from 3.08 in the previous round after
+      DCR module and CFA requirements were dropped.
+    confidence: high
+    note: >-
+      Run 2.24 and 2.90 as the downside and upside cases. This is a real,
+      contracted, 25-year offtake -- the reason a Maharashtra agrivoltaic
+      pro-forma can be written at all.
+
+  tariff_escalation:
+    value: 0.0
+    unit: fraction per year
+    source: >-
+      MSKVY PPAs are flat for the full 25-year term. Zero is not a simplification
+      here, it is the contract.
+    confidence: high
+
+  degradation_rate:
+    value: 0.005
+    unit: fraction per year
+    source: Standard mono-PERC warranty degradation, 0.5%/year after year one.
+    confidence: high
+
+  project_life_years:
+    value: 25
+    unit: years
+    source: PPA term.
+    confidence: high
+
+  discount_rate:
+    value: 0.11
+    unit: fraction, nominal
+    source: >-
+      Nominal post-tax WACC for Indian renewables, roughly 10-12% at current
+      lending rates. Nominal, so cashflows are nominal too.
+    confidence: medium
+
+  crop_price_escalation:
+    value: 0.04
+    unit: fraction per year
+    source: >-
+      Long-run nominal food price inflation. Applies only to the crop line; the
+      energy line is contractually flat.
+    confidence: low
+    note: >-
+      Crop prices do not escalate smoothly, they spike and collapse. This is a
+      trend line through a very noisy series.
+
+# Agronomic assumptions that are not crop specific.
+agronomy:
+
+  effective_rain_fraction:
+    value: 0.75
+    unit: fraction
+    source: >-
+      Share of gross rainfall entering the root zone. Konkan's lateritic slopes
+      shed a large fraction of high-intensity monsoon rain as runoff.
+    confidence: low
