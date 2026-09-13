@@ -1,0 +1,142 @@
+# Crop parameter library.
+#
+# PROVENANCE WARNING. These are literature midpoints and published district
+# averages, not calibrations against the Roha site. They are good enough to rank
+# designs against each other and bad enough that no single absolute number here
+# should be quoted without a field season behind it. Every entry carries its own
+# `source` line. Prices marked "indicative" need checking against the current
+# CACP minimum support price before they go in front of anyone.
+#
+# Kc, stage lengths and Ky follow FAO-56 and FAO-33.
+# `shade_sensitivity` is the exponent on the light transmission ratio: 1.0 means
+# yield tracks light one for one, lower means the crop saturates below full sun.
+
+crops:
+
+  paddy_kharif:
+    season: kharif
+    sowing_month: 6
+    sowing_day: 20
+    stages: { initial: 20, development: 30, mid: 50, late: 25 }
+    kc_initial: 1.05
+    kc_mid: 1.20
+    kc_end: 0.90
+    yield_response_factor: 1.09
+    shade_sensitivity: 0.80
+    heat_sensitivity: 0.35
+    critical_temp_c: 35.0
+    reference_yield_t_ha: 2.6
+    price_inr_per_tonne: 23660
+    cultivation_cost_inr_per_ha: 55000
+    source: >-
+      Kc and Ky from FAO-56/FAO-33 (rice). Yield is the Raigad district average
+      order of magnitude. Price is the Agmarknet modal rate for Paddy (Common),
+      FAQ grade, pulled 2026-09-13.
+    notes: >-
+      Konkan's dominant kharif crop. Grown under monsoon cloud, so the array
+      intercepts light that was already scarce -- the least favourable case in
+      this library, and included precisely for that reason.
+
+  cowpea_rabi:
+    season: rabi
+    sowing_month: 11
+    sowing_day: 5
+    stages: { initial: 15, development: 25, mid: 30, late: 20 }
+    kc_initial: 0.40
+    kc_mid: 1.05
+    kc_end: 0.60
+    yield_response_factor: 1.15
+    shade_sensitivity: 0.50
+    heat_sensitivity: 0.20
+    critical_temp_c: 38.0
+    reference_yield_t_ha: 0.9
+    price_inr_per_tonne: 60000
+    cultivation_cost_inr_per_ha: 25000
+    source: >-
+      Kc/Ky from FAO-56 pulses. Shade sensitivity from legume shade-tolerance
+      trials. Price indicative.
+    notes: >-
+      The Konkan rabi-fallow crop. Short duration, nitrogen fixing, genuinely
+      shade tolerant, and low enough in water demand to survive on residual soil
+      moisture plus condensate. The counterfactual is bare ground.
+
+  sorghum_rabi:
+    season: rabi
+    sowing_month: 10
+    sowing_day: 10
+    stages: { initial: 20, development: 35, mid: 40, late: 30 }
+    kc_initial: 0.30
+    kc_mid: 1.05
+    kc_end: 0.55
+    yield_response_factor: 0.90
+    shade_sensitivity: 0.90
+    heat_sensitivity: 0.25
+    critical_temp_c: 38.0
+    reference_yield_t_ha: 1.1
+    price_inr_per_tonne: 34000
+    cultivation_cost_inr_per_ha: 30000
+    source: FAO-56/FAO-33 sorghum. Yield is the rabi jowar district average. Price indicative.
+    notes: >-
+      C4, so close to light limited and the hardest crop here to shade without
+      cost. Solapur grows it on residual moisture, which is where the water
+      channel earns its keep.
+
+  chickpea_rabi:
+    season: rabi
+    sowing_month: 10
+    sowing_day: 25
+    stages: { initial: 20, development: 30, mid: 35, late: 25 }
+    kc_initial: 0.40
+    kc_mid: 1.00
+    kc_end: 0.35
+    yield_response_factor: 1.00
+    shade_sensitivity: 0.60
+    heat_sensitivity: 0.40
+    critical_temp_c: 35.0
+    reference_yield_t_ha: 1.2
+    price_inr_per_tonne: 59000
+    cultivation_cost_inr_per_ha: 38000
+    source: FAO-56/FAO-33 pulses. Price indicative.
+    notes: >-
+      Terminal heat stress during pod fill is the binding constraint across
+      Marathwada and Vidarbha. The crop where shade cooling should show up most
+      clearly.
+
+  soybean_kharif:
+    season: kharif
+    sowing_month: 6
+    sowing_day: 25
+    stages: { initial: 20, development: 30, mid: 40, late: 25 }
+    kc_initial: 0.40
+    kc_mid: 1.15
+    kc_end: 0.50
+    yield_response_factor: 0.85
+    shade_sensitivity: 0.75
+    heat_sensitivity: 0.30
+    critical_temp_c: 35.0
+    reference_yield_t_ha: 1.15
+    price_inr_per_tonne: 53000
+    cultivation_cost_inr_per_ha: 42000
+    source: FAO-56/FAO-33 soybean. Yield is the Vidarbha district average. Price indicative.
+    notes: Vidarbha's dominant kharif crop and the one with the most acreage at stake.
+
+  onion_rabi:
+    season: rabi
+    sowing_month: 11
+    sowing_day: 15
+    stages: { initial: 20, development: 35, mid: 45, late: 25 }
+    kc_initial: 0.50
+    kc_mid: 1.05
+    kc_end: 0.75
+    yield_response_factor: 1.10
+    shade_sensitivity: 0.45
+    heat_sensitivity: 0.30
+    critical_temp_c: 38.0
+    reference_yield_t_ha: 20.0
+    price_inr_per_tonne: 15000
+    cultivation_cost_inr_per_ha: 120000
+    source: FAO-56/FAO-33 onion. Nashik district average yield. Price indicative and volatile.
+    notes: >-
+      Shade tolerant and high value, so the most favourable crop in this library.
+      Price volatility dominates its economics far more than shading does; treat
+      the revenue line as a wide distribution, not a point.
