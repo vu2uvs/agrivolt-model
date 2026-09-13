@@ -1,0 +1,31 @@
+name: yavatmal-vidarbha
+description: >-
+  Yavatmal, the dryland distress case. Kharif soybean followed by rabi chickpea on land where terminal heat stress during pod fill is a recurring cause of failure. The crop most likely to benefit from canopy cooling, on the acreage where it would matter most.
+
+site:
+  name: Yavatmal
+  district: Yavatmal
+  latitude: 20.39
+  longitude: 78.13
+  acres: 15
+  altitude_m: 445
+  agroclimatic_zone: Vidarbha, moderate rainfall dryland
+
+array:
+  collector_width: 2.3
+  pitch: 9.0
+  tilt: 18.0
+  azimuth: 180.0
+  clearance_height: 4.0
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+crops:
+  - key: soybean_kharif
+    irrigation_mm: 0
+    grown_in_baseline: true
+  - key: chickpea_rabi
+    irrigation_mm: 0
+    grown_in_baseline: true

@@ -1,0 +1,36 @@
+name: roha-konkan
+description: >-
+  The real site. Fifteen acres near Roha in Raigad, on the Konkan coast. The
+  design question here is not whether shading costs the kharif paddy some yield,
+  it is whether the array can pay for a rabi crop on land that currently grows
+  nothing between October and June. Konkan takes 2500 mm of rain in four months
+  and then goes dry, so the limiting resource after the monsoon is water, not
+  land and not sunlight.
+
+site:
+  name: Roha
+  district: Raigad
+  latitude: 18.43        # PLACEHOLDER: replace with the surveyed parcel centroid
+  longitude: 73.12       # PLACEHOLDER: replace with the surveyed parcel centroid
+  acres: 15
+  altitude_m: 20
+  agroclimatic_zone: Konkan coastal, high rainfall
+
+array:
+  collector_width: 2.3   # one module row in portrait
+  pitch: 9.0
+  tilt: 18.0             # near the latitude optimum
+  azimuth: 180.0
+  clearance_height: 4.0  # tractor and sprayer clearance
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+crops:
+  - key: paddy_kharif
+    irrigation_mm: 0
+    grown_in_baseline: true
+  - key: cowpea_rabi
+    irrigation_mm: 150     # from a farm pond, not the grid or a borewell
+    grown_in_baseline: false

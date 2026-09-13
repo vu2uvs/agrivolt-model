@@ -1,0 +1,31 @@
+name: solapur-marathwada
+description: >-
+  Semi-arid Solapur, the water-scarcity case. Rabi jowar grown on residual soil moisture after a thin monsoon, plus chickpea. Sorghum is C4 and close to light limited, so it is the hardest crop in the library to shade without cost -- which makes it the fairest test of whether the water saving really can outweigh the light penalty.
+
+site:
+  name: Solapur
+  district: Solapur
+  latitude: 17.66
+  longitude: 75.91
+  acres: 15
+  altitude_m: 460
+  agroclimatic_zone: Scarcity zone, semi-arid
+
+array:
+  collector_width: 2.3
+  pitch: 9.0
+  tilt: 18.0
+  azimuth: 180.0
+  clearance_height: 4.0
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+crops:
+  - key: sorghum_rabi
+    irrigation_mm: 0
+    grown_in_baseline: true
+  - key: chickpea_rabi
+    irrigation_mm: 50
+    grown_in_baseline: true
