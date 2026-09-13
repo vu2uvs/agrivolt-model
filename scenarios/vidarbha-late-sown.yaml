@@ -1,0 +1,39 @@
+name: vidarbha-late-sown
+description: >-
+  The same Yavatmal parcel as yavatmal-vidarbha, with the rabi chickpea sown on
+  5 December instead of 25 October. That is not a hypothetical: rabi planting
+  across much of Vidarbha waits on the kharif soybean harvest, and late sowing
+  is the norm rather than the exception.
+
+  The point of the scenario is that it moves grain fill out of a mild December
+  and into a March that runs above 35 C on half of all days. Compare it against
+  yavatmal-vidarbha to see what the array's canopy cooling is actually worth,
+  and to see that the sowing date matters more than the array does.
+
+site:
+  name: Yavatmal
+  district: Yavatmal
+  latitude: 20.39
+  longitude: 78.13
+  acres: 15
+  altitude_m: 445
+  agroclimatic_zone: Vidarbha, moderate rainfall dryland
+
+array:
+  collector_width: 2.3
+  pitch: 9.0
+  tilt: 18.0
+  azimuth: 180.0
+  clearance_height: 4.0
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+crops:
+  - key: soybean_kharif
+    irrigation_mm: 0
+    grown_in_baseline: true
+  - key: chickpea_rabi_late
+    irrigation_mm: 0
+    grown_in_baseline: true

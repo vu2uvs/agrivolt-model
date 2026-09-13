@@ -18,10 +18,10 @@ That part matches the international literature.
 
 The part that does not:
 
-> **Every site needs ₹3.31–3.60/kWh to clear an 11% hurdle rate.
+> **Every site needs ₹3.32–3.62/kWh to clear an 11% hurdle rate.
 > MSKVY 2.0 pays ₹2.825/kWh.**
 
-That is a gap of 49 to 78 paise, and it is remarkably stable across sites,
+That is a gap of 49 to 79 paise, and it is remarkably stable across sites,
 crops, and the full range of capex the market plausibly offers. No combination
 of a realistic 2026 capex (₹38–52/Wp) and any tariff MERC discovered across the
 257 MSKVY 2.0 substations clears the hurdle.
@@ -35,9 +35,10 @@ policy gap with a number attached to it.
 | Site | Agro-climatic zone | LER | kWh/kWp | Crop margin ₹/yr | Breakeven ₹/kWh |
 |---|---|---:|---:|---:|---:|
 | Roha, Raigad | Konkan coastal, 2500 mm | 1.46 | 1713 | +54,486 | 3.588 |
-| Solapur | Scarcity zone, semi-arid | 1.60 | 1810 | −176,219 | 3.464 |
-| Nashik | Assured rainfall, horticultural | 1.75 | 1735 | +694,942 | 3.314 |
-| Yavatmal | Vidarbha dryland | 1.47 | 1704 | −100,294 | 3.604 |
+| Solapur | Scarcity zone, semi-arid | 1.60 | 1810 | −176,933 | 3.464 |
+| Nashik | Assured rainfall, horticultural | 1.75 | 1735 | +691,546 | 3.315 |
+| Yavatmal | Vidarbha dryland | 1.47 | 1704 | −100,302 | 3.604 |
+| Yavatmal, late sown | Vidarbha dryland, Dec sowing | 1.47 | 1704 | −134,650 | 3.615 |
 
 Five weather years each, 2019–2023. Reproduce with `agrivolt run`.
 
@@ -56,7 +57,7 @@ temperate literature has little reason to model:
 **Water.** Shading cuts evapotranspiration. In a rainfed or deficit-irrigated
 system that closes part of the water gap. At Roha, a rabi cowpea under the array
 sees relative transpiration rise from 0.65 to 0.97, and **out-yields the same
-crop in the open field — 0.73 t/ha against 0.54 t/ha, a 33% uplift** — despite
+crop in the open field — 0.73 t/ha against 0.54 t/ha, a 33.5% uplift** — despite
 receiving 31% less light. Less light, more food. The model produces that from a
 FAO-56 water balance, not from an assumption.
 
@@ -65,9 +66,23 @@ separate Konkan point below — that the land grows nothing at all in rabi today
 is a different and larger claim, and the two are kept apart deliberately.
 
 **Heat.** Yield across Marathwada and Vidarbha is frequently set by a handful of
-days when the canopy exceeds a crop's critical temperature during flowering or
-grain fill. A few kelvin of shade cooling across those days is worth more than
-the light it costs. Chickpea is the clearest case.
+days when the canopy exceeds a crop's critical temperature during grain fill.
+A few kelvin of shade cooling across those days is worth more than the light it
+costs.
+
+This channel turned out to be conditional, which is more interesting than if it
+had simply worked. It does not bind at all for an early-sown crop: chickpea
+sown on 25 October fills grain between mid-December and mid-February, when
+Yavatmal peaks at 35.7 °C, and the array's cooling is worth nothing. Sown on
+5 December — which is the norm across Vidarbha, because rabi planting waits on
+the kharif soybean harvest — grain fill moves to late January through March and
+runs above 35 °C on 53% of days at Yavatmal and 77% at Solapur. There the array
+recovers 8 points of heat loss, lifting the heat factor from 0.89 to 0.97.
+
+The larger effect is the sowing date itself: it drops open-field chickpea yield
+from 0.33 to 0.11 t/ha. The array helps at the margin; sowing three weeks
+earlier helps three times as much. `scenarios/vidarbha-late-sown.yaml` exists so
+that comparison is a command rather than a claim.
 
 There is a third thing, specific to the Konkan and easy to miss. Roha takes
 2500 mm of rain in four months and then goes dry, so a large share of the

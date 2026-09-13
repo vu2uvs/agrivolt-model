@@ -89,7 +89,7 @@ def _run_crop(plan: CropPlan, crop: crop_model.Crop, year: int,
         season_daily["precipitation"], et0_shaded * kc, plan.irrigation_mm
     )
 
-    repro = crop.reproductive_window(year)
+    repro = crop.heat_sensitive_window(year)
     repro_temps = season_daily.loc[
         (season_daily.index >= repro[0]) & (season_daily.index <= repro[-1]), "temp_max"
     ]

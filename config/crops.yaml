@@ -140,3 +140,30 @@ crops:
       Shade tolerant and high value, so the most favourable crop in this library.
       Price volatility dominates its economics far more than shading does; treat
       the revenue line as a wide distribution, not a point.
+
+  chickpea_rabi_late:
+    season: rabi
+    sowing_month: 12
+    sowing_day: 5
+    stages: { initial: 20, development: 30, mid: 35, late: 25 }
+    kc_initial: 0.40
+    kc_mid: 1.00
+    kc_end: 0.35
+    yield_response_factor: 1.00
+    shade_sensitivity: 0.60
+    heat_sensitivity: 0.40
+    critical_temp_c: 35.0
+    reference_yield_t_ha: 1.2
+    price_inr_per_tonne: 59000
+    cultivation_cost_inr_per_ha: 38000
+    source: >-
+      Identical to chickpea_rabi except for the sowing date. Same FAO-56/FAO-33
+      parameters.
+    notes: >-
+      Late sowing is the norm across much of Vidarbha, because rabi planting
+      waits on the kharif soybean harvest. It pushes grain fill from December-
+      February into late January-March, when Tmax runs above 35 C on half to
+      three quarters of days. Early-sown chickpea escapes terminal heat
+      entirely; late-sown chickpea walks straight into it. This entry exists so
+      that the difference is a scenario the model can price rather than a
+      caveat in prose.

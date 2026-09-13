@@ -103,11 +103,19 @@ class Crop:
         ])
         return pd.Series(curve, index=self.season_index(year), name="kc")
 
-    def reproductive_window(self, year: int) -> pd.DatetimeIndex:
-        """The mid-season stage, when heat does the most damage."""
+    def heat_sensitive_window(self, year: int) -> pd.DatetimeIndex:
+        """Flowering through grain fill -- the stages heat actually damages.
+
+        This spans the mid and late stages together, not just the mid one. The
+        distinction matters: terminal heat stress in chickpea and wheat is
+        specifically a grain-filling phenomenon, and a rabi crop sown in October
+        reaches grain fill in February, when Vidarbha and Marathwada start
+        running above 35 C. Scoping the window to the mid stage alone ends it in
+        January and misses the event entirely.
+        """
         index = self.season_index(year)
         start = self.stages.initial + self.stages.development
-        return index[start:start + self.stages.mid]
+        return index[start:]
 
 
 def load_crops(path: Path | None = None) -> dict[str, Crop]:
