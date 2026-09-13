@@ -1,6 +1,13 @@
 name: yavatmal-vidarbha
 description: >-
-  Yavatmal, the dryland distress case. Kharif soybean followed by rabi chickpea on land where terminal heat stress during pod fill is a recurring cause of failure. The crop most likely to benefit from canopy cooling, on the acreage where it would matter most.
+  Yavatmal, kharif soybean followed by rabi chickpea. The chickpea is sown on
+  5 December rather than in October, because rabi planting across Vidarbha waits
+  on the soybean harvest and late sowing is the norm rather than the exception.
+
+  That detail decides the outcome. Late sowing moves grain fill out of a mild
+  December and into a March running above 35 C on half of all days, which is
+  where the array's canopy cooling finally earns something. Sow three weeks
+  earlier and the crop escapes the heat on its own.
 
 site:
   name: Yavatmal
@@ -28,7 +35,7 @@ crops:
     irrigation_mm: 0
     grown_in_baseline: true
     residual_moisture_mm: 130
-  - key: chickpea_rabi
+  - key: chickpea_rabi_late
     irrigation_mm: 0
     grown_in_baseline: true
     residual_moisture_mm: 130

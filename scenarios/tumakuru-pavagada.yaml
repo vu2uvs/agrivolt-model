@@ -1,0 +1,41 @@
+name: tumakuru-pavagada
+description: >-
+  The Pavagada plateau in Tumakuru district, where Karnataka built one of the
+  largest solar parks in the world across roughly 13,000 acres of farmland.
+
+  The land there was leased from farmers rather than bought, which was the
+  humane choice, but conventional ground mount takes the field out of
+  cultivation for the life of the plant. The farmer gets rent and stops farming.
+  This scenario asks the obvious counterfactual, which is what the same plateau
+  would do if the arrays had been built high enough to keep growing groundnut
+  underneath them.
+
+  Shallow red sandy loam holds very little water, so the crop lives on
+  in-season rain and fails often. That makes it a hard case, and an honest one.
+
+site:
+  name: Pavagada
+  district: Tumakuru
+  latitude: 14.10
+  longitude: 77.28
+  acres: 15
+  altitude_m: 650
+  agroclimatic_zone: South Karnataka, eastern dry zone
+
+array:
+  collector_width: 2.3
+  pitch: 9.0
+  tilt: 14.0
+  azimuth: 180.0
+  clearance_height: 4.0
+
+weather:
+  start_year: 2019
+  end_year: 2023
+
+# Soil water carried into the season: shallow red sandy loam, which stores little.
+crops:
+  - key: groundnut_kharif
+    irrigation_mm: 0
+    grown_in_baseline: true
+    residual_moisture_mm: 80

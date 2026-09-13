@@ -210,3 +210,24 @@ crops:
       Tur, and north Karnataka grows more of it than anywhere else in India.
       A long duration legume that flowers into the hottest part of the season,
       which is the combination the heat channel was written for.
+
+  groundnut_kharif:
+    season: kharif
+    sowing_month: 6
+    sowing_day: 25
+    stages: { initial: 25, development: 35, mid: 35, late: 25 }
+    kc_initial: 0.40
+    kc_mid: 1.15
+    kc_end: 0.60
+    yield_response_factor: 0.70
+    shade_sensitivity: 0.70
+    heat_sensitivity: 0.30
+    critical_temp_c: 36.0
+    reference_yield_t_ha: 0.95
+    price_inr_per_tonne: 68000
+    cultivation_cost_inr_per_ha: 45000
+    source: FAO-56 and FAO-33 groundnut. Yield is the south Karnataka rainfed average. Price indicative.
+    notes: >-
+      The crop the Pavagada plateau grew before the solar park arrived. Shallow
+      red sandy loam holds very little water, so groundnut there lives on
+      whatever falls during the season and fails often.

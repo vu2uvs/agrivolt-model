@@ -14,16 +14,15 @@ hand, and every one of them can be reproduced with a single command.
 
 ## What we found
 
-Seven scenarios across Maharashtra and Karnataka, five weather years each, on a
+Six sites across Maharashtra and Karnataka, five weather years each, on a
 15 acre parcel.
 
 | Site | Agro-climatic zone | LER | kWh/kWp | Crop margin ₹/yr | Breakeven ₹/kWh |
 |---|---|---:|---:|---:|---:|
-| Nashik | Assured rainfall, horticultural | 1.60 | 1776 | +700,550 | 3.235 |
 | Solapur | Scarcity zone, semi-arid | 1.58 | 1830 | +65,642 | 3.361 |
+| Pavagada, Tumakuru | South Karnataka, eastern dry zone | 1.51 | 1893 | +33,804 | 3.239 |
 | Kalaburagi | North interior Karnataka, semi-arid | 1.50 | 1811 | +79,209 | 3.369 |
-| Yavatmal | Vidarbha dryland | 1.46 | 1735 | +104,772 | 3.477 |
-| Yavatmal, late sown | Vidarbha dryland, Dec sowing | 1.46 | 1735 | +340 | 3.508 |
+| Yavatmal | Vidarbha dryland, Dec sowing | 1.46 | 1735 | +340 | 3.508 |
 | Roha, Raigad | Konkan coastal, 2500 mm rain | 1.45 | 1760 | +71,725 | 3.489 |
 | Nagpur | Vidarbha, cotton | 1.43 | 1713 | +174,337 | 3.487 |
 
@@ -35,13 +34,13 @@ If you have not met these numbers before, here is the plain version.
 much food and this much electricity separately. An LER of 1.5 means one hectare
 of agrivoltaics does the work of one and a half hectares split between a farm
 and a solar farm. Anything above 1.0 is a gain. Our sites land between 1.43 and
-1.60, which is in line with the international field trials.
+1.58, which is in line with the international field trials.
 
 **kWh/kWp.** How many units of electricity a year each unit of installed panel
 capacity produces. It is the standard way to compare one solar site against
 another regardless of project size. Indian projects typically run somewhere
-between 1400 and 1900. Sunny, dry Solapur tops our list at 1830 and cloudier
-Nagpur sits lowest at 1713.
+between 1400 and 1900. Pavagada tops our list at 1893, which is exactly why Karnataka put one of the
+world's largest solar parks there. Cloudier Nagpur sits lowest at 1713.
 
 **Crop margin ₹/yr.** What the farming side clears in a year after paying for
 seed, labour and everything else, across the whole 15 acre plot. Worth noticing
@@ -100,6 +99,13 @@ array's cooling is worth nothing to it. Sown on 5 December, which is the norm
 across Vidarbha because rabi planting waits on the soybean harvest, grain fill
 moves into March and runs above 35 °C on half of all days. Moving the sowing
 date three weeks earlier is worth roughly three times what the panels are.
+
+**Sometimes the land is already lost.** Karnataka built one of the largest
+solar parks in the world at Pavagada across roughly 13,000 acres of leased
+farmland. The farmers get rent and stop farming, because conventional ground
+mount takes the field out of cultivation for the life of the plant. That site is
+in the set as the counterfactual. Groundnut under an array there loses 15% of
+its yield, which is a great deal better than losing all of it.
 
 **Sometimes the land grows nothing at all.** Roha takes 2500 mm of rain in four
 months and then goes dry, so much of Raigad lies fallow from October to June.
