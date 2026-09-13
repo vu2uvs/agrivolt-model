@@ -5,14 +5,22 @@ going back to 1981, and an agroclimatology community that already serves the
 variables FAO-56 wants. Indian ground stations with public hourly irradiance
 essentially do not exist, so a reanalysis product is the honest starting point.
 
-Two granularities are used:
+Two granularities are used, and they deliberately use different time standards:
 
-  * hourly  -- drives the PV and shading calculation, which needs solar position
-  * daily   -- drives the water balance and crop model
+  * hourly -- requested in UTC, because pvlib derives solar position from UTC
+    plus longitude, and irradiance has to be paired with the sun position at the
+    same instant. Getting this wrong is silent and catastrophic: the model still
+    produces plausible-looking annual totals while pairing midday irradiance
+    with a sunset sun angle.
 
-Timestamps are UTC. Solar position is derived from UTC plus longitude by pvlib,
-which avoids every local-time and daylight-saving ambiguity. Convert to
-Asia/Kolkata only for display.
+  * daily -- requested in LST, because a crop season is measured in local days.
+    Aggregating a local day into UTC buckets splits every day across two of
+    them, which is wrong for a water balance even though it barely moves an
+    annual sum.
+
+POWER defaults to LST for both, so both are passed explicitly rather than
+relying on a default that is easy to misread. `tests/test_sources.py` pins the
+hourly request to UTC.
 
 Docs: https://power.larc.nasa.gov/docs/services/api/temporal/
 """
@@ -21,7 +29,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from .cache import fetch_json
+from .cache import SourceUnavailable, fetch_json
 
 BASE = "https://power.larc.nasa.gov/api/temporal"
 
@@ -29,6 +37,10 @@ FILL_VALUE = -999.0
 
 # POWER caps an hourly point request at roughly a year, so requests are chunked.
 HOURLY_CHUNK_YEARS = 1
+
+# Crop seasons are local. Daily records carry local calendar dates, so they are
+# labelled with the zone they were measured in rather than pretending to be UTC.
+INDIA_TZ = "Asia/Kolkata"
 
 HOURLY_PARAMETERS = (
     "ALLSKY_SFC_SW_DWN",  # global horizontal irradiance, W/m2
@@ -48,34 +60,56 @@ DAILY_PARAMETERS = (
 )
 
 
-def _to_frame(payload: dict, index_format: str) -> pd.DataFrame:
+def _to_frame(payload: dict, index_format: str, tz: str) -> pd.DataFrame:
     parameters = payload["properties"]["parameter"]
     frame = pd.DataFrame(parameters)
-    frame.index = pd.to_datetime(frame.index, format=index_format, utc=True)
+    naive = pd.to_datetime(frame.index, format=index_format)
+    frame.index = naive.tz_localize(tz)
     frame.index.name = "timestamp"
+
+    reported = payload.get("header", {}).get("time_standard")
+    expected = "UTC" if tz == "UTC" else "LST"
+    if reported and reported != expected:
+        raise SourceUnavailable(
+            f"POWER returned {reported} data where {expected} was requested; "
+            "irradiance would be paired with the wrong solar position"
+        )
+
     return frame.replace(FILL_VALUE, pd.NA).astype("float64").sort_index()
 
 
+def build_params(lat: float, lon: float, start: str, end: str,
+                 parameters: tuple[str, ...], community: str,
+                 time_standard: str) -> dict:
+    """The exact query POWER is asked for. Separated out so it can be tested."""
+    return {
+        "parameters": ",".join(parameters),
+        "community": community,
+        "latitude": lat,
+        "longitude": lon,
+        "start": start,
+        "end": end,
+        "format": "JSON",
+        "time-standard": time_standard,
+    }
+
+
 def _request(temporal: str, lat: float, lon: float, start: str, end: str,
-             parameters: tuple[str, ...], community: str, index_format: str) -> pd.DataFrame:
+             parameters: tuple[str, ...], community: str, index_format: str,
+             time_standard: str, tz: str) -> pd.DataFrame:
     payload = fetch_json(
         f"{BASE}/{temporal}/point",
-        {
-            "parameters": ",".join(parameters),
-            "community": community,
-            "latitude": lat,
-            "longitude": lon,
-            "start": start,
-            "end": end,
-            "format": "JSON",
-        },
-        label=f"power-{temporal}-{lat:.3f}-{lon:.3f}-{start}",
+        build_params(lat, lon, start, end, parameters, community, time_standard),
+        label=f"power-{temporal}-{time_standard.lower()}-{lat:.3f}-{lon:.3f}-{start}",
     )
-    return _to_frame(payload, index_format)
+    return _to_frame(payload, index_format, tz)
 
 
 def hourly(lat: float, lon: float, start_year: int, end_year: int) -> pd.DataFrame:
     """Hourly irradiance and meteorology, UTC indexed.
+
+    UTC because pvlib pairs this with a solar position derived from the same
+    timestamps.
 
     Columns: ghi (W/m2), temp_air (degC), wind_speed (m/s), relative_humidity (%).
     """
@@ -84,6 +118,7 @@ def hourly(lat: float, lon: float, start_year: int, end_year: int) -> pd.DataFra
             "hourly", lat, lon,
             f"{year}0101", f"{year}1231",
             HOURLY_PARAMETERS, "RE", "%Y%m%d%H",
+            time_standard="UTC", tz="UTC",
         )
         for year in range(start_year, end_year + 1, HOURLY_CHUNK_YEARS)
     ]
@@ -97,7 +132,7 @@ def hourly(lat: float, lon: float, start_year: int, end_year: int) -> pd.DataFra
 
 
 def daily(lat: float, lon: float, start_year: int, end_year: int) -> pd.DataFrame:
-    """Daily meteorology, UTC indexed.
+    """Daily meteorology on local calendar days, Asia/Kolkata indexed.
 
     Columns: solar_radiation (MJ/m2/day), temp_mean/max/min (degC),
     relative_humidity (%), wind_speed (m/s), precipitation (mm).
@@ -106,6 +141,7 @@ def daily(lat: float, lon: float, start_year: int, end_year: int) -> pd.DataFram
         "daily", lat, lon,
         f"{start_year}0101", f"{end_year}1231",
         DAILY_PARAMETERS, "AG", "%Y%m%d",
+        time_standard="LST", tz=INDIA_TZ,
     )
     return frame.rename(columns={
         "ALLSKY_SFC_SW_DWN": "solar_radiation",

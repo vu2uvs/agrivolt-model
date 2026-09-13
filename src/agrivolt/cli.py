@@ -18,6 +18,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from . import crop as crop_model
+from . import irradiance, profiles as profile_module
 from . import scenario as scenario_module
 
 
@@ -140,6 +141,33 @@ def _optima(results: list[dict]) -> dict:
     return {"by_objective": ranked, "warnings": warnings}
 
 
+def command_profiles(args: argparse.Namespace) -> int:
+    """Time-resolved curves for one scenario, for plotting.
+
+    Shares the scenario file with `run` so the plots and the headline numbers
+    cannot describe different geometries.
+    """
+    config = scenario_module.load(args.scenario)
+    site = config["site"]
+    array = config["array"]
+    year = args.year or config["weather"]["end_year"]
+
+    weather = site.hourly_weather(year, year)
+    solar_position = irradiance.solar_position(
+        weather.index, site.latitude, site.longitude, site.altitude_m
+    )
+    split = irradiance.decompose(weather["ghi"], solar_position["apparent_zenith"])
+
+    document = profile_module.build(
+        site, array, config["module"], weather, split, solar_position,
+        diurnal_month=args.month,
+    )
+    document["scenario"] = config["name"]
+    document["year"] = year
+    _emit(document, args.out)
+    return 0
+
+
 def command_crops(args: argparse.Namespace) -> int:
     for key, crop in sorted(crop_model.load_crops().items()):
         print(
@@ -169,6 +197,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sweep_parser.add_argument("--out", type=Path)
     sweep_parser.set_defaults(handler=command_sweep)
+
+    profiles_parser = subparsers.add_parser(
+        "profiles", help="hourly, monthly and month-by-hour curves for plotting"
+    )
+    profiles_parser.add_argument("scenario", type=Path)
+    profiles_parser.add_argument(
+        "--month", type=int, default=3, help="month for the diurnal profile (default March)"
+    )
+    profiles_parser.add_argument("--year", type=int, help="weather year (default: scenario end)")
+    profiles_parser.add_argument("--out", type=Path)
+    profiles_parser.set_defaults(handler=command_profiles)
 
     crops_parser = subparsers.add_parser("crops", help="list the crop library")
     crops_parser.set_defaults(handler=command_crops)

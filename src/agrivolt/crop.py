@@ -89,7 +89,9 @@ class Crop:
         return date(year, self.sowing_month, self.sowing_day)
 
     def season_index(self, year: int) -> pd.DatetimeIndex:
-        start = pd.Timestamp(self.sowing_date(year), tz="UTC")
+        # Local dates, to match the daily weather record. A sowing date is a
+        # calendar date on a farm, not an instant in UTC.
+        start = pd.Timestamp(self.sowing_date(year), tz="Asia/Kolkata")
         return pd.date_range(start, periods=self.stages.total, freq="D")
 
     def crop_coefficient_curve(self, year: int) -> pd.Series:

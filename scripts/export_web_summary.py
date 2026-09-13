@@ -21,8 +21,12 @@ import json
 import sys
 from pathlib import Path
 
-# Scenario documents that are sweeps rather than single runs.
-SKIP_SUFFIXES = ("-sweep.json",)
+# Scenario documents that are neither single runs nor site summaries.
+SKIP_SUFFIXES = ("-sweep.json", "-profiles.json")
+
+# The site leads on one parcel. Its profiles and design sweep are what the
+# charts render; the other scenarios contribute rows to the comparison table.
+FEATURED = "roha-konkan"
 
 
 def summarise_crop(crop: dict) -> dict:
@@ -65,6 +69,11 @@ def summarise_scenario(document: dict) -> dict:
         "area_ha": document["site"]["area_ha"],
         "dc_capacity_kw": document["array"]["dc_capacity_kw"],
         "gcr": document["array"]["gcr"],
+        "pitch_m": document["array"]["pitch_m"],
+        "tilt_deg": document["array"]["tilt_deg"],
+        "clearance_m": document["array"]["clearance_height_m"],
+        "collector_width_m": document["array"]["collector_width_m"],
+        "ground_sky_view_factor": document["array"]["ground_sky_view_factor"],
         "ler": spread["land_equivalent_ratio"]["mean"],
         "annual_gwh": round(spread["annual_kwh"]["mean"] / 1e6, 3),
         "specific_yield": first_year["energy"]["specific_yield_kwh_per_kwp"],
@@ -95,9 +104,15 @@ def build(results_dir: Path) -> dict:
         "economics"
     ]["tariff_gap_inr_per_kwh"]
 
+    featured = _optional(results_dir / f"{FEATURED}-profiles.json")
+    sweep = _optional(results_dir / f"{FEATURED}-pitch-sweep.json")
+
     return {
         "generated_at": max(document["generated_at"] for document in documents),
         "provenance": documents[0]["provenance"],
+        "featured": FEATURED,
+        "profiles": featured,
+        "sweep": _trim_sweep(sweep) if sweep else None,
         "headline": {
             "mskvy_tariff": round(tariff, 3),
             "breakeven_min": min(breakeven),
@@ -110,6 +125,37 @@ def build(results_dir: Path) -> dict:
             "weather_years": "-".join(str(y) for y in documents[0]["weather_years"]),
         },
         "sites": sites,
+    }
+
+
+def _optional(path: Path) -> dict | None:
+    """Read a companion artefact if it exists.
+
+    Profiles and sweeps are produced by separate commands, so a summary built
+    before those have been run should still be valid -- just without charts.
+    """
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _trim_sweep(sweep: dict) -> dict:
+    """Keep the sweep curve and the warnings, drop the per-row detail."""
+    return {
+        "swept": sweep["swept"],
+        "warnings": sweep["optima"]["warnings"],
+        "results": [
+            {
+                "pitch_m": row["pitch_m"],
+                "gcr": row["gcr"],
+                "transmission": row["light_transmission"],
+                "annual_kwh": row["annual_kwh"],
+                "crop_margin_inr": row["crop_margin_inr"],
+                "ler": row["land_equivalent_ratio"],
+                "npv_inr_crore": row["npv_inr_crore"],
+            }
+            for row in sweep["results"]
+        ],
     }
 
 

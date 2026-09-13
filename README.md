@@ -18,10 +18,10 @@ That part matches the international literature.
 
 The part that does not:
 
-> **Every site needs ₹3.32–3.62/kWh to clear an 11% hurdle rate.
+> **Every site needs ₹3.24–3.55/kWh to clear an 11% hurdle rate.
 > MSKVY 2.0 pays ₹2.825/kWh.**
 
-That is a gap of 49 to 79 paise, and it is remarkably stable across sites,
+That is a gap of 41 to 72 paise, and it is remarkably stable across sites,
 crops, and the full range of capex the market plausibly offers. No combination
 of a realistic 2026 capex (₹38–52/Wp) and any tariff MERC discovered across the
 257 MSKVY 2.0 substations clears the hurdle.
@@ -34,11 +34,11 @@ policy gap with a number attached to it.
 
 | Site | Agro-climatic zone | LER | kWh/kWp | Crop margin ₹/yr | Breakeven ₹/kWh |
 |---|---|---:|---:|---:|---:|
-| Roha, Raigad | Konkan coastal, 2500 mm | 1.46 | 1713 | +54,486 | 3.588 |
-| Solapur | Scarcity zone, semi-arid | 1.60 | 1810 | −176,933 | 3.464 |
-| Nashik | Assured rainfall, horticultural | 1.75 | 1735 | +691,546 | 3.315 |
-| Yavatmal | Vidarbha dryland | 1.47 | 1704 | −100,302 | 3.604 |
-| Yavatmal, late sown | Vidarbha dryland, Dec sowing | 1.47 | 1704 | −134,650 | 3.615 |
+| Roha, Raigad | Konkan coastal, 2500 mm | 1.45 | 1760 | +50,239 | 3.495 |
+| Solapur | Scarcity zone, semi-arid | 1.61 | 1830 | −177,735 | 3.430 |
+| Nashik | Assured rainfall, horticultural | 1.76 | 1776 | +700,550 | 3.235 |
+| Yavatmal | Vidarbha dryland | 1.46 | 1735 | −103,431 | 3.539 |
+| Yavatmal, late sown | Vidarbha dryland, Dec sowing | 1.46 | 1735 | −137,721 | 3.549 |
 
 Five weather years each, 2019–2023. Reproduce with `agrivolt run`.
 
@@ -56,9 +56,9 @@ temperate literature has little reason to model:
 
 **Water.** Shading cuts evapotranspiration. In a rainfed or deficit-irrigated
 system that closes part of the water gap. At Roha, a rabi cowpea under the array
-sees relative transpiration rise from 0.65 to 0.97, and **out-yields the same
-crop in the open field — 0.73 t/ha against 0.54 t/ha, a 33.5% uplift** — despite
-receiving 31% less light. Less light, more food. The model produces that from a
+sees relative transpiration rise from 0.65 to 0.96, and **out-yields the same
+crop in the open field — 0.72 t/ha against 0.54 t/ha, a 32% uplift** — despite
+receiving 30% less light. Less light, more food. The model produces that from a
 FAO-56 water balance, not from an assumption.
 
 Note that this is the crop compared against itself grown in the open. The
@@ -89,7 +89,7 @@ There is a third thing, specific to the Konkan and easy to miss. Roha takes
 district lies **rabi fallow** from October to June. The counterfactual for a
 winter crop there is not a smaller harvest — it is bare ground. The array pays
 for the farm pond and the drip that make a second crop possible at all. Total
-food output at Roha rises 7.9% while the parcel additionally delivers 4.7 GWh.
+food output at Roha rises 6.7% while the parcel additionally delivers 4.8 GWh.
 
 Land equivalent ratio cannot express that, because it divides, and the
 denominator is zero. `metrics.system_comparison` reports it as absolute
@@ -167,7 +167,13 @@ was wrong.
 Being clear about this is the difference between a model and a brochure.
 
 **Solid.** The PV side is conventional pvlib and would survive a lender's
-technical review. The light model agrees with pvlib's independent
+technical review. Irradiance and solar position are checked against each other
+directly -- `tests/test_sources.py` asserts that peak measured irradiance falls
+within an hour of minimum solar zenith. That test exists because the first
+version of this model did not pass it: NASA POWER serves Local Solar Time by
+default, the loader labelled it UTC, and every hour of irradiance was paired
+with a sun position five hours out. It still produced a plausible annual total,
+which is exactly why it needed a test rather than a sanity check. The light model agrees with pvlib's independent
 implementation. FAO-56 is implemented in full and checked against published
 reference values. The tariff is a real MERC order. Every financial assumption
 lives in `config/assumptions.yaml` with a source and a confidence level, and
