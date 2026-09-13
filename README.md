@@ -55,10 +55,14 @@ temperate literature has little reason to model:
 
 **Water.** Shading cuts evapotranspiration. In a rainfed or deficit-irrigated
 system that closes part of the water gap. At Roha, a rabi cowpea under the array
-sees relative transpiration rise from 0.28 to 0.42, and **out-yields the same
-crop in the open field — 0.73 t/ha against 0.16 t/ha** — despite receiving 31%
-less light. Less light, more food. The model produces that from a FAO-56 water
-balance, not from an assumption.
+sees relative transpiration rise from 0.65 to 0.97, and **out-yields the same
+crop in the open field — 0.73 t/ha against 0.54 t/ha, a 33% uplift** — despite
+receiving 31% less light. Less light, more food. The model produces that from a
+FAO-56 water balance, not from an assumption.
+
+Note that this is the crop compared against itself grown in the open. The
+separate Konkan point below — that the land grows nothing at all in rabi today —
+is a different and larger claim, and the two are kept apart deliberately.
 
 **Heat.** Yield across Marathwada and Vidarbha is frequently set by a handful of
 days when the canopy exceeds a crop's critical temperature during flowering or
